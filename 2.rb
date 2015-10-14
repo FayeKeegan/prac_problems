@@ -34,7 +34,6 @@ class SinglyLinkedList
 		@head = node
 	end
 
-
 	def delete_node(node)
 		if self.head == node
 			@head = @head.next_node
@@ -61,19 +60,53 @@ class SinglyLinkedList
 		result
 	end
 
+	def remove_dups_with_hash
+		seen = {}
+		current_node = head
+		until current_node.nil?
+			if seen[current_node.data]
+				delete_node(current_node)
+			else
+				seen[current_node.data] = true
+			end
+			current_node = current_node.next_node
+		end
+		self
+	end
 
+	def remove_dups
+		first_runner = head.next_node
+		until first_runner.nil?
+			second_runner = head
+			while second_runner != first_runner
+				puts "second: " + second_runner.data.to_s + ", first: " + first_runner.data.to_s
+				if first_runner.data == second_runner.data
+					delete_node(second_runner)
+				end
+				second_runner = second_runner.next_node
+			end
+			first_runner = first_runner.next_node
+		end
+	end
 end
 
 #singly linked list
+
+#create nodes
 n1 = Node.new(1)
 n2 = Node.new(2)
 n3 = Node.new(3)
+n_dup = Node.new(2)
 n4 = Node.new(4)
+
+#link them
 n1.next_node = n2
 n2.next_node = n3
-n3.next_node = n4
+n3.next_node = n_dup
+n_dup.next_node = n4
 
+#make a list
 s_list = SinglyLinkedList.new(n1, n4)
-puts (s_list.print).to_s
+puts s_list.to_s
 
 
