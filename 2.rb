@@ -7,7 +7,7 @@ class Node
 	end
 
 	def to_s
-		data_str = "data : " + data.to_s + 
+		data_str = "data : " + data.to_s
 		next_str = "next_node: " + next_node.data.to_s 
 		prev_str = "prev_node: " + prev_node.data.to_s
 		[data_str, next_str, prev_str].join(",")
@@ -88,6 +88,22 @@ class SinglyLinkedList
 			first_runner = first_runner.next_node
 		end
 	end
+
+	def nth_last_element(n)
+		current_node = self.head
+		while true
+			later_node = current_node
+			(n-1).times do
+				later_node = later_node.next_node
+			end
+			if later_node.next_node.nil?
+				puts "found: " + current_node.data.to_s
+				return current_node
+			end
+			current_node = current_node.next_node
+		end
+	end
+
 end
 
 #singly linked list
