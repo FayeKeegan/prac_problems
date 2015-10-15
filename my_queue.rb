@@ -16,7 +16,13 @@ class myQueue
 			@reverseStack.push(@stack.pop)
 			i += 1
 		end
-		@reverseStack.pop
+		de_qed_el = @reverseStack.pop
+		j = 0
+		while j < @reverse_stack.length
+			@stack.push(@reverse_stack.pop)
+			j += 1
+		end
+		de_qed_el
 	end
 
 end
