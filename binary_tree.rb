@@ -46,6 +46,16 @@ class BinaryTree
 		end
 	end
 
+	def is_balanced?(node=parent)
+		return 0 if node.nil?
+		if !is_balanced?(node.left) || !is_balanced?(node.right)
+			return false
+		else
+			return 1 + is_balanced?(left) + is_balanced?(right)
+		end
+	end
+
+
 end
 
 c1 = Node.new(1)
