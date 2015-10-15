@@ -53,6 +53,6 @@ puts test_set.to_s
 2.times do test_set.pop end
 puts test_set.to_s
 test_set.pop_at_int(0)
-puts test_set.to_s
+puts test_set.to_s	
 
 
