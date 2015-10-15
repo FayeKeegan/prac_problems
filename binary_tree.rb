@@ -48,11 +48,22 @@ class BinaryTree
 
 	def is_balanced?(node=parent)
 		return 0 if node.nil?
+
 		if !is_balanced?(node.left) || !is_balanced?(node.right)
 			return false
-		else
-			return 1 + is_balanced?(left) + is_balanced?(right)
 		end
+
+		diff = is_balanced?(node.left) - is_balanced?(node.right)
+
+		if diff > 1 || diff < -1
+			return false
+		end
+		if node == self.parent 
+			return true
+		else
+			return 1 + is_balanced?(node.left) + is_balanced?(node.right)
+		end
+
 	end
 
 
@@ -60,14 +71,28 @@ end
 
 c1 = Node.new(1)
 c2 = Node.new(3)
-parent_node = Node.new(4, c1, c2)
 c1.left = Node.new(5)
-c1.right = Node.new(8)
-c2.left = Node.new(0)
-c2.right = Node.new(99)
+c1.right = Node.new(10)
+c2.left = Node.new(20)
+c2.right = Node.new(0)
+parent_node = Node.new(4, c1, c2)
 my_tree = BinaryTree.new(parent_node)
+
+unbalancedParent = Node.new(100) 
+aa = Node.new(1)
+bb = Node.new(1)
+cc = Node.new(1)
+aa.left = bb
+bb.left = cc
+unbalancedParent.left = aa
+unbalancedParent.right = Node.new(1)
+my_unbalanced_tree = BinaryTree.new(unbalancedParent)
+
 
 puts my_tree.bfs(1).to_s + " should be true"
 puts my_tree.bfs(12).to_s + " should be false"
 puts my_tree.dfs(1).to_s + " should be true"
 puts my_tree.dfs(12).to_s + " should be false"
+puts my_tree.is_balanced?.to_s + " should be true"
+puts my_unbalanced_tree.is_balanced?.to_s + " should be false"
+
