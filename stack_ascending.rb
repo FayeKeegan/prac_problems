@@ -1,6 +1,6 @@
 class Stack
 
-	attr_reader :top
+	attr_reader :store
 
 	def initialize
 		@store = []
@@ -23,28 +23,32 @@ class Stack
 		@store.empty?
 	end
 
+	def to_s
+		@store.to_s
+	end
+
+
 end
 
 def sort_stack_ascending(stack)
-	@sorted_stack = Stack.new
+	sorted_stack = Stack.new
 	until stack.is_empty?
 		el = stack.pop
-		if @sorted_stack.is_empty? || @sorted_stack.peek >= el
-			@sorted_stack.push(el)
+		if sorted_stack.is_empty? || sorted_stack.peek >= el
+			sorted_stack.push(el)
 		else
 			intermediate_stack = Stack.new
 			intermediate_stack.push(sorted_stack.pop)
-			until stack.peek > el || stack.peek.is_empty?
+			until sorted_stack.is_empty? || sorted_stack.peek > el
 				intermediate_stack.push(sorted_stack.pop)
 			end
-			stack.push(el)
+			sorted_stack.push(el)
 			until intermediate_stack.is_empty?
 				sorted_stack.push(intermediate_stack.pop)
 			end
 		end
 	end
-	@sorted_stack
-	end
+	sorted_stack
 end
 
 my_stack = Stack.new
