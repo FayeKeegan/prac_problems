@@ -63,7 +63,23 @@ class BinaryTree
 		else
 			return 1 + is_balanced?(node.left) + is_balanced?(node.right)
 		end
+	end
 
+	def is_route?(node_start, node_end, visited={})
+		visited_stack = [node_start]
+		visited_hash = {}
+		until visited_stack.empty?
+			node = visited_stack.pop
+			next if visited_hash[node] == true
+			visited_hash[node] = true
+			if node == node_end
+				return true
+			else
+				visited_stack.push(node.left) if node.left
+				visited_stack.push(node.right) if node.right
+			end
+		end
+		false
 	end
 
 
@@ -95,4 +111,6 @@ puts my_tree.dfs(1).to_s + " should be true"
 puts my_tree.dfs(12).to_s + " should be false"
 puts my_tree.is_balanced?.to_s + " should be true"
 puts my_unbalanced_tree.is_balanced?.to_s + " should be false"
+puts my_tree.is_route?(c2.right, c2.left).to_s + " should be false"
+puts my_tree.is_route?(parent_node, c2.left).to_s + " should be true"
 
