@@ -83,15 +83,21 @@ class BinaryTree
 	end
 end
 
-def po_array(parent)
+def pre_o_array(parent)
 	return [] if parent.nil?
-	return [parent.val].concat(po_array(parent.left)).concat(po_array(parent.right))
+	return [parent.val].concat(pre_o_array(parent.left)).concat(pre_o_array(parent.right))
 end
 
 def io_array(parent)
 	return [] if parent.nil?
 	return io_array(parent.left).concat([parent.val]).concat(io_array(parent.right))
 end
+
+def post_o_array(parent)
+	return [] if parent.nil?
+	return post_o_array(parent.left).concat(post_o_array(parent.right)).concat([parent.val])
+end
+
 
 
 c1 = Node.new(1)
@@ -142,7 +148,8 @@ puts my_tree.is_balanced?.to_s + " should be true"
 puts my_unbalanced_tree.is_balanced?.to_s + " should be false"
 puts my_tree.is_route?(c2.right, c2.left).to_s + " should be false"
 puts my_tree.is_route?(parent_node, c2.left).to_s + " should be true"
-puts po_array(parent_node).to_s + " [4, 1, 5, 10, 3, 20, 0]"
-puts po_array(wiki_tree.parent).map {|el| el.upcase}.to_s + "  [F, B, A, D, C, E, G, I, H]"
+puts pre_o_array(parent_node).to_s + " [4, 1, 5, 10, 3, 20, 0]"
+puts pre_o_array(wiki_tree.parent).map {|el| el.upcase}.to_s + "  [F, B, A, D, C, E, G, I, H]"
 puts io_array(wiki_tree.parent).map {|el| el.upcase}.to_s + "[A, B, C, D, E, F, G, H, I]"
+puts post_o_array(wiki_tree.parent).map {|el| el.upcase}.to_s + " [A, C, E, D, B, H, I, G, F]"
 
