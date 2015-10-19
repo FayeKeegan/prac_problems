@@ -128,8 +128,10 @@ def min_d_btree(array)
 	return current_node
 end
 
-def fca(node1, node2)
-	
+def dfs_target(current_node, target)
+	return false if current_node.nil?
+	return true if current_node.val == target
+	return dfs_target(current_node.left, target) || dfs_target(current_node.right, target)
 end
 
 
@@ -192,5 +194,8 @@ min_tree = min_d_btree([0, 1, 2, 3, 4, 5, 6, 7])
 puts pre_o_array(min_tree).to_s
 puts post_o_array(min_tree).to_s
 puts io_array(min_tree).to_s
+puts dfs_target(f_node, "a").to_s + " is true"
+puts dfs_target(f_node, "DD").to_s + " is false"
+
 
 
