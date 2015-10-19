@@ -83,10 +83,12 @@ class BinaryTree
 	end
 end
 
-def io_array(parent)
+def po_array(parent)
 	return [] if parent.nil?
-	return [parent.val].concat(io_array(parent.left)).concat(io_array(parent.right))
+	return [parent.val].concat(po_array(parent.left)).concat(po_array(parent.right))
 end
+
+
 
 
 c1 = Node.new(1)
@@ -117,5 +119,5 @@ puts my_tree.is_balanced?.to_s + " should be true"
 puts my_unbalanced_tree.is_balanced?.to_s + " should be false"
 puts my_tree.is_route?(c2.right, c2.left).to_s + " should be false"
 puts my_tree.is_route?(parent_node, c2.left).to_s + " should be true"
-puts io_array(parent_node).to_s + " [4, 1, 5, 10, 3, 20, 0]"
+puts po_array(parent_node).to_s + " [4, 1, 5, 10, 3, 20, 0]"
 
