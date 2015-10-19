@@ -88,6 +88,10 @@ def po_array(parent)
 	return [parent.val].concat(po_array(parent.left)).concat(po_array(parent.right))
 end
 
+def io_array(parent)
+
+end
+
 
 
 
@@ -110,6 +114,26 @@ unbalancedParent.left = aa
 unbalancedParent.right = Node.new(1)
 my_unbalanced_tree = BinaryTree.new(unbalancedParent)
 
+a_node = Node.new("a")
+b_node = Node.new("b")
+c_node = Node.new("c")
+d_node = Node.new("d")
+e_node = Node.new("e")
+f_node = Node.new("f")
+g_node = Node.new("g")
+h_node = Node.new("h")
+i_node = Node.new("i")
+
+wiki_tree = BinaryTree.new(f_node)
+f_node.left = b_node
+f_node.right = g_node
+b_node.left = a_node
+b_node.right = d_node
+d_node.left = c_node
+d_node.right = e_node
+g_node.right = i_node
+i_node.left = h_node
+
 
 puts my_tree.bfs(1).to_s + " should be true"
 puts my_tree.bfs(12).to_s + " should be false"
@@ -120,4 +144,5 @@ puts my_unbalanced_tree.is_balanced?.to_s + " should be false"
 puts my_tree.is_route?(c2.right, c2.left).to_s + " should be false"
 puts my_tree.is_route?(parent_node, c2.left).to_s + " should be true"
 puts po_array(parent_node).to_s + " [4, 1, 5, 10, 3, 20, 0]"
+puts po_array(wiki_tree.parent).map {|el| el.upcase}.to_s + "  [F, B, A, D, C, E, G, I, H]"
 
