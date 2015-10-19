@@ -81,6 +81,7 @@ class BinaryTree
 		end
 		false
 	end
+
 end
 
 def pre_o_array(parent)
@@ -97,6 +98,40 @@ def post_o_array(parent)
 	return [] if parent.nil?
 	return post_o_array(parent.left).concat(post_o_array(parent.right)).concat([parent.val])
 end
+
+def d_arrays(parent_node)
+	result = [[parent_node]]
+	last_depth = result.last 
+	while !last_depth.empty?
+		puts "tick"
+		next_depth = []
+		last_depth.each do |node|
+			next_depth.push(node.left) if node.left
+			next_depth.push(node.right) if node.right
+		end
+		result.push(next_depth)
+		last_depth = next_depth
+	end
+
+	return result
+end
+
+def min_d_btree(array)
+	return nil if array.empty?
+	mid_idx = array.length / 2
+	current_node = Node.new(array[mid_idx])
+	left_array = array.take(mid_idx)
+	right_array = array.drop(mid_idx + 1)
+	# puts "left: "  + left_array.to_s + "  right: " + right_array.to_s
+	current_node.left = min_d_btree(left_array)
+	current_node.right = min_d_btree(right_array)
+	return current_node
+end
+
+def fca(node1, node2)
+	
+end
+
 
 
 
@@ -152,4 +187,10 @@ puts pre_o_array(parent_node).to_s + " [4, 1, 5, 10, 3, 20, 0]"
 puts pre_o_array(wiki_tree.parent).map {|el| el.upcase}.to_s + "  [F, B, A, D, C, E, G, I, H]"
 puts io_array(wiki_tree.parent).map {|el| el.upcase}.to_s + "[A, B, C, D, E, F, G, H, I]"
 puts post_o_array(wiki_tree.parent).map {|el| el.upcase}.to_s + " [A, C, E, D, B, H, I, G, F]"
+puts d_arrays(wiki_tree.parent).map { | array| array.map { |el| el.to_s}}.to_s + " rungs"
+min_tree = min_d_btree([0, 1, 2, 3, 4, 5, 6, 7])
+puts pre_o_array(min_tree).to_s
+puts post_o_array(min_tree).to_s
+puts io_array(min_tree).to_s
+
 
