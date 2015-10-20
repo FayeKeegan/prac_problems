@@ -103,7 +103,6 @@ def d_arrays(parent_node)
 	result = [[parent_node]]
 	last_depth = result.last 
 	while !last_depth.empty?
-		puts "tick"
 		next_depth = []
 		last_depth.each do |node|
 			next_depth.push(node.left) if node.left
@@ -122,7 +121,6 @@ def min_d_btree(array)
 	current_node = Node.new(array[mid_idx])
 	left_array = array.take(mid_idx)
 	right_array = array.drop(mid_idx + 1)
-	# puts "left: "  + left_array.to_s + "  right: " + right_array.to_s
 	current_node.left = min_d_btree(left_array)
 	current_node.right = min_d_btree(right_array)
 	return current_node
@@ -130,11 +128,37 @@ end
 
 def dfs_target(current_node, target)
 	return false if current_node.nil?
-	return true if current_node.val == target
+	return true if current_node == target
 	return dfs_target(current_node.left, target) || dfs_target(current_node.right, target)
 end
 
+def is_ancestor?(parent_node, node1, node2)
+	dfs_target(parent_node, node1) && dfs_target(parent_node, node2)
+end
 
+
+def fca(parent_node, node1, node2)
+	return false if !is_ancestor?(parent_node, node1, node2)
+	if parent_node.left && is_ancestor?(parent_node.left, node1, node2)
+		return fca(parent_node.left, node1, node2)
+	elsif parent_node.right && is_ancestor?(parent_node.right, node1, node2)
+		return fca(parent_node.right, node1, node2)
+	else
+		return parent_node
+	end
+end
+
+
+def is_bst?(node, min=nil, max=nil)
+	return true if node.nil?
+
+	if (min && node.val <= min) || (max && node.val > max)
+		return false
+	end
+
+	is_bst?(node.left, min, node.val) && is_bst?(node.right, node.val, max)
+
+end
 
 
 c1 = Node.new(1)
@@ -176,6 +200,24 @@ d_node.right = e_node
 g_node.right = i_node
 i_node.left = h_node
 
+node_0 = Node.new(0)
+node_1 = Node.new(1)
+node_2 = Node.new(2)
+node_3 = Node.new(3)
+node_4 = Node.new(4)
+node_5 = Node.new(5)
+node_6 = Node.new(6)
+node_9 = Node.new(9)
+
+bst = BinaryTree.new(node_4)
+node_4.left = node_2
+node_4.right = node_6
+node_2.left = node_1
+node_2.right = node_3
+node_6.left = node_5
+node_6.right = node_9
+
+
 
 puts my_tree.bfs(1).to_s + " should be true"
 puts my_tree.bfs(12).to_s + " should be false"
@@ -191,11 +233,16 @@ puts io_array(wiki_tree.parent).map {|el| el.upcase}.to_s + "[A, B, C, D, E, F, 
 puts post_o_array(wiki_tree.parent).map {|el| el.upcase}.to_s + " [A, C, E, D, B, H, I, G, F]"
 puts d_arrays(wiki_tree.parent).map { | array| array.map { |el| el.to_s}}.to_s + " rungs"
 min_tree = min_d_btree([0, 1, 2, 3, 4, 5, 6, 7])
-puts pre_o_array(min_tree).to_s
-puts post_o_array(min_tree).to_s
-puts io_array(min_tree).to_s
 puts dfs_target(f_node, "a").to_s + " is true"
 puts dfs_target(f_node, "DD").to_s + " is false"
+# puts fca(f_node, a_node, d_node).val.to_s + " is B"
+puts is_ancestor?(b_node, a_node, d_node).to_s + " is true"
+puts fca(f_node, a_node, d_node).val.to_s + " is B"
+puts fca(f_node, i_node, h_node).val.to_s + " is G"
+puts fca(f_node, c_node, h_node).val.to_s + " is F"
+puts fca(f_node, a_node, e_node).val.to_s + " is B"
+puts is_bst?(parent_node).to_s + " is false"
+puts is_bst?(bst.parent).to_s + " is true"
 
 
 
